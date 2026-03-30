@@ -1,29 +1,16 @@
 import * as Phaser from 'phaser';
+import { InteractableData } from './TravelSystem';
 
-export interface InteractableData {
-  id: string;
-  x: number;
-  y: number;
-  scene: string;
-}
-
-export class TravelSystem {
+export class TravelFastSystem {
   private travelZones: Phaser.GameObjects.Zone[] = [];
   private sceneToSwitch: Phaser.Scene;
   private interactables: InteractableData[] = [];
-  private actionKey!: Phaser.Input.Keyboard.Key;
+  private isTransitioning = false;
 
-  private readonly INTERACTION_DISTANCE = 30;
+  private readonly INTERACTION_DISTANCE = 20;
 
   constructor(private readonly scene: Phaser.Scene) {
     this.sceneToSwitch = scene;
-    this.setupActionKey();
-  }
-
-  private setupActionKey(): void {
-    this.actionKey = this.scene.input.keyboard!.addKey(
-      Phaser.Input.Keyboard.KeyCodes.X
-    );
   }
 
   /**
@@ -34,7 +21,7 @@ export class TravelSystem {
   }
 
   /**
-   * Registra múltiplos objetos interativos
+   * Registra multiplos objetos interativos
    */
   registerInteractables(data: InteractableData[]): void {
     this.interactables.push(...data);
@@ -76,7 +63,11 @@ export class TravelSystem {
   }
 
   update(playerX: number, playerY: number): void {
-    // Encontrar objeto mais próximo
+    if (this.isTransitioning) {
+      return;
+    }
+
+    // Encontrar objeto mais proximo
     let nearestObj: InteractableData | null = null;
     let nearestDistance = Infinity;
 
@@ -88,28 +79,32 @@ export class TravelSystem {
       }
     }
 
-    // Verificar se pode interagir
+    // Verificar se pode interagir automaticamente
     const canInteract = nearestObj && nearestDistance <= this.INTERACTION_DISTANCE;
 
-    // Verificar se X foi pressionado para interagir
-    if (canInteract && Phaser.Input.Keyboard.JustDown(this.actionKey)) {
+
+    if (canInteract) {
       this.switchToScene(nearestObj!);
     }
   }
 
   private switchToScene(interactable: InteractableData): void {
-  if (!interactable.scene) return;
+    if (!interactable.scene || this.isTransitioning) {
+      return;
+    }
 
-  // Para a cena atual e inicia a nova
-  this.scene.scene.start(interactable.scene, {
-    fromScene: this.scene.scene.key,
-    spawnPoint: interactable.id, // ex: "door_exit" para saber onde spawnar o player
-  });
-}
+    this.isTransitioning = true;
 
+    // Para a cena atual e inicia a nova
+    this.scene.scene.start(interactable.scene, {
+      fromScene: this.scene.scene.key,
+      spawnPoint: interactable.id,
+    });
+  }
 
   destroy(): void {
     this.travelZones.forEach((zone) => zone.destroy());
     this.travelZones = [];
+    this.isTransitioning = false;
   }
 }
