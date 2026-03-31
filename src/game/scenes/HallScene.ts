@@ -7,7 +7,7 @@ import { DebugPanel, MessageBox } from '../ui';
 import { HallMapEntity } from '../entities/map/HallMapEntity';
 import { BROOM_DATA } from '../data/ItemsData';
 import { ItemsAnimatedBuilder } from '../entities/builder/itemsAnimatedBuilder';
-import { DIALOG_CHALLENGE_BROOM } from '../data/challenges';
+import { DIALOG_CHALLENGE_BROOM, DIALOG_CHALLENGE_BROOM_RESTART } from '../data/challenges';
 import { DialogBox } from '../ui/DialogBox';
 
 export class HallScene extends Phaser.Scene {
@@ -21,6 +21,7 @@ export class HallScene extends Phaser.Scene {
   private itemsBuilder!: ItemsAnimatedBuilder;
   private messageBox!: MessageBox;
   private dialogBox!: DialogBox;
+  private fromScene!: string;
 
   constructor() {
     super({ key: 'HallScene' });
@@ -30,12 +31,19 @@ export class HallScene extends Phaser.Scene {
   }
 
   init(data: { fromScene: string; spawnPoint: string }) {
+    this.fromScene = data.fromScene;
     this.spawnPoint = data.spawnPoint;
   }
 
   create(): void {
     this.dialogBox = new DialogBox();
-    this.dialogBox.registerDialog(DIALOG_CHALLENGE_BROOM);
+
+    if (this.fromScene == 'HallScene') {
+      this.dialogBox.registerDialog(DIALOG_CHALLENGE_BROOM_RESTART);
+    } else {
+      this.dialogBox.registerDialog(DIALOG_CHALLENGE_BROOM);
+    }
+
 
     this.hallMap = new HallMapEntity(this, 'map_hall');
     const spawn = this.getSpawnForPoint(this.spawnPoint);
@@ -86,7 +94,11 @@ export class HallScene extends Phaser.Scene {
       this.player.sprite,
       broomSprites,
       () => {
-        this.messageBox.show('Colidiu com vassoura!');
+        this.scene.start(this.scene.key, {
+          fromScene: this.scene.key,
+          spawnPoint: 'default',
+        });
+
       }
     );
   }

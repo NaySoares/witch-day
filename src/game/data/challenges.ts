@@ -84,3 +84,12 @@ export const DIALOG_CHALLENGE_BROOM = [
     text: "Chegue até a porta do outro lado e não seja varrida no caminho."
   }
 ]
+
+export const DIALOG_CHALLENGE_BROOM_RESTART = [
+  {
+    id: 0,
+    character: 'Morgava',
+    portrait: SPRITES_CHARACTERS.Morgava,
+    text: "Se não prestar atenção você nunca se tornará uma bruxa!"
+  },
+]
