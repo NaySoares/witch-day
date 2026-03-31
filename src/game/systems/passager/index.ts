@@ -1,1 +1,0 @@
-export { PassagerSystem } from './PassagerSystem';

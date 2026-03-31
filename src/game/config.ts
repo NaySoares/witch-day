@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { PreloadScene, WorldScene, HouseScene } from './scenes';
+import { PreloadScene, WorldScene, HouseScene, HouseProfessorScene, WorldProfessorScene, HallScene, GardenScene } from './scenes';
 
 const GAME_WIDTH_DEFAULT = 1920;
 const GAME_HEIGHT_DEFAULT = 1080;
@@ -27,5 +27,5 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
     parent: 'game-container',
   },
-  scene: [PreloadScene, WorldScene, HouseScene],
+  scene: [PreloadScene, WorldScene, HouseScene, HouseProfessorScene, WorldProfessorScene, HallScene, GardenScene],
 };

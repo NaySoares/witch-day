@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-export class HouseMapEntity {
+export class HallMapEntity {
   public readonly map: Phaser.Tilemaps.Tilemap;
   public readonly width: number;
   public readonly height: number;

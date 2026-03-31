@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { LIST_ITENS } from '../data/ItemsData';
 
 /**
  * Cena de preload - carrega todos os assets do jogo
@@ -15,8 +16,25 @@ export class PreloadScene extends Phaser.Scene {
     this.loadPlayerSprites();
     // Carregar mapa e tileset exportados pelo Tiled
     this.loadMapAssets();
+    // Carregar itens especiais
+    this.loadItems();
   }
 
+  private loadItems(): void {
+    // Vassoura do desafio
+    this.load.spritesheet('broom', '/assets/tiles/broom_tileset.png', {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.loadImages(LIST_ITENS)
+  }
+
+  private loadImages(list: { key: string; path: string }[]) {
+    list.forEach((item) => {
+      this.load.image(item.key, item.path);
+    });
+  }
 
   /**
    * Carrega spritesheets do personagem
@@ -51,6 +69,18 @@ export class PreloadScene extends Phaser.Scene {
     });
   }
 
+  private loadCharacterSprites(): void {
+    this.load.spritesheet('morgava', '/assets/characters/morgava.png', {
+      frameWidth: 355,
+      frameHeight: 533,
+    });
+
+    this.load.spritesheet('bruxa', '/assets/characters/bruxa.png', {
+      frameWidth: 355,
+      frameHeight: 519,
+    });
+  }
+
   /**
    * Carrega assets do mapa
    */
@@ -61,12 +91,15 @@ export class PreloadScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('map_house_professor', '/assets/tiledConfig/map_house_professor.json');
     this.load.tilemapTiledJSON('map_world_professor', '/assets/tiledConfig/map_world_professor.json');
     this.load.tilemapTiledJSON('map_hall', '/assets/tiledConfig/map_hall.json');
+    this.load.tilemapTiledJSON('map_garden', '/assets/tiledConfig/map_garden.json');
+
 
     // carrega os tilesets
     this.load.image('house', '/assets/tileset/house.png');
     this.load.image('tileset_witch', '/assets/tileset/tileset_witch.png');
     this.load.image('tileset_house_professor', '/assets/tileset/tileset_house_professor.png');
-    this.load.image('interiors', '/assets/tileset/interiors.png');
+    this.load.image('map_house_professorv2', '/assets/tileset/map_house_professorv2.png');
+    this.load.image('map_hall', '/assets/tileset/map_hall.png');
   }
 
   create(): void {

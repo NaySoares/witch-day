@@ -6,6 +6,7 @@ export interface InteractableItem {
   x: number;
   y: number;
   message: string;
+  sprite?: Phaser.GameObjects.Sprite;
 }
 
 /**
@@ -110,17 +111,38 @@ export class InteractionSystem {
       return;
     }
 
+    const canTravel = nearestObj && (nearestObj.id === 'hall' || nearestObj.id === 'garden') && nearestDistance <= this.INTERACTION_DISTANCE;
+
     // Verificar se X foi pressionado para interagir
     if (canInteract && Phaser.Input.Keyboard.JustDown(this.actionKey)) {
+
+      if (canTravel) {
+        this.travelToChallenge(nearestObj!.id);
+        return;
+      }
+
       this.messageBox.show(nearestObj!.message);
     }
   }
 
-  /**
-   * Verifica se uma mensagem está sendo exibida
-   */
-  isShowingMessage(): boolean {
-    return this.messageBox.isVisible;
+  travelToChallenge(id: string): void {
+    let mapScene
+
+    switch (id) {
+      case 'hall':
+        mapScene = 'HallScene';
+        break;
+      case 'garden':
+        mapScene = 'GardenScene';
+        break;
+      default:
+        return;
+    }
+
+    this.scene.scene.start(mapScene, {
+      fromScene: this.scene.scene.key,
+      spawnPoint: id,
+    });
   }
 
 
