@@ -8,7 +8,7 @@ import { HallMapEntity } from '../entities/map/HallMapEntity';
 import { BROOM_DATA } from '../data/ItemsData';
 import { ItemsAnimatedBuilder } from '../entities/builder/itemsAnimatedBuilder';
 import { DIALOG_CHALLENGE_BROOM, DIALOG_CHALLENGE_BROOM_RESTART } from '../data/challenges';
-import { DialogBox } from '../ui/DialogBox';
+import { DialogBox } from '../ui/dialog/DialogBox';
 
 export class HallScene extends Phaser.Scene {
   private hallMap!: HallMapEntity;
@@ -27,7 +27,6 @@ export class HallScene extends Phaser.Scene {
     super({ key: 'HallScene' });
     this.debugPanel = new DebugPanel();
     this.messageBox = new MessageBox();
-
   }
 
   init(data: { fromScene: string; spawnPoint: string }) {

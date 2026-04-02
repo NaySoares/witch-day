@@ -7,7 +7,7 @@ import { DebugPanel, MessageBox } from '../ui';
 import { WorldMapGardenEntity } from '../entities/map';
 import { LIST_ITENS } from '../data/ItemsData';
 import { DIALOG_CHALLENGE_GARDEN_RECIPE_01, DIALOG_CHALLENGE_GARDEN_RECIPE_02, RECIPES_LIST } from '../data/challenges';
-import { DialogBox } from '../ui/DialogBox';
+import { DialogBox } from '../ui/dialog/DialogBox';
 
 
 export class GardenScene extends Phaser.Scene {
@@ -105,7 +105,7 @@ export class GardenScene extends Phaser.Scene {
     if (!this.input.keyboard) return;
     if (!Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey('X'))) return;
 
-    const player = this.player.sprite; // ajuste conforme seu player
+    const player = this.player.sprite;
 
     this.itemSprites.forEach((sprite, id) => {
       const distance = Phaser.Math.Distance.Between(

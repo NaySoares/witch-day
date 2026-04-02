@@ -1,3 +1,8 @@
+import { containerStyle, imageStyle, nameStyle, textStyle, wrapperStyle, instructionStyle } from './DialogStyle';
+
+const TEXT_TO_SHOW_NEXT = '[X] continuar';
+const KEY_TO_CONTINUE = 'x';
+
 export class DialogBox {
   private container: HTMLDivElement;
   private characterImage: HTMLImageElement;
@@ -27,7 +32,7 @@ export class DialogBox {
   private handleKeyDown(e: KeyboardEvent): void {
     if (!this._isVisible) return;
     if (this._isInSequence) return;
-    if (e.key === 'x' || e.key === 'X') {
+    if (e.key === KEY_TO_CONTINUE || e.key === KEY_TO_CONTINUE.toUpperCase()) {
       this.hide();
     }
   }
@@ -37,7 +42,7 @@ export class DialogBox {
     this._isInSequence = true;
 
     const keyHandler = (e: KeyboardEvent) => {
-      if (e.key !== 'x' && e.key !== 'X') return;
+      if (e.key !== KEY_TO_CONTINUE && e.key !== KEY_TO_CONTINUE.toUpperCase()) return;
 
       if (currentIndex < dialogData.length) {
         const data = dialogData[currentIndex];
@@ -60,40 +65,14 @@ export class DialogBox {
 
   private createContainer(): HTMLDivElement {
     const container = document.createElement('div');
-    container.style.cssText = `
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 180px;
-      background: rgba(10, 10, 30, 0.95);
-      border-top: 3px solid #a78bfa;
-      display: none;
-      z-index: 1000;
-      font-family: 'Press Start 2P', Arial, sans-serif;
-      box-sizing: border-box;
-      flex-direction: row;
-      align-items: stretch;
-    `;
+    container.style.cssText = containerStyle;
     return container;
   }
 
   // Portrait fica FORA do container — flutua sobre a caixa
   private createPortrait(): HTMLImageElement {
     const image = document.createElement('img');
-    image.style.cssText = `
-      position: fixed;
-      bottom: 0px;
-      left: 32px;
-      height: 55vh;
-      width: 280px;
-      object-fit: contain;
-      object-position: bottom left;
-      z-index: 1001;
-      display: none;
-      pointer-events: none;
-      filter: drop-shadow(4px 0px 8px rgba(167, 139, 250, 0.4));
-    `;
+    image.style.cssText = imageStyle;
     return image;
   }
 
@@ -103,41 +82,18 @@ export class DialogBox {
     text: HTMLDivElement;
   } {
     const wrapper = document.createElement('div');
-    wrapper.style.cssText = `
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 16px 24px 16px 336px;
-      box-sizing: border-box;
-      overflow: hidden;
-    `;
+    wrapper.style.cssText = wrapperStyle;
 
     const name = document.createElement('div');
-    name.style.cssText = `
-      color: #a78bfa;
-      font-size: 11px;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    `;
+    name.style.cssText = nameStyle;
 
     const text = document.createElement('div');
-    text.style.cssText = `
-      color: #f0f0f0;
-      font-size: 12px;
-      line-height: 1.8;
-      flex: 1;
-    `;
+    text.style.cssText = textStyle;
 
     const instruction = document.createElement('div');
-    instruction.style.cssText = `
-      color: #6b7280;
-      font-size: 9px;
-      text-align: right;
-      margin-top: 10px;
-    `;
-    instruction.textContent = '[X] continuar';
+    instruction.style.cssText = instructionStyle;
+
+    instruction.textContent = TEXT_TO_SHOW_NEXT;
 
     wrapper.appendChild(name);
     wrapper.appendChild(text);

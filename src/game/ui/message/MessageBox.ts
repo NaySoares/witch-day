@@ -1,7 +1,12 @@
+import { containerStyle, textStyle, instructionStyle } from "./MessageStyle";
+
 /**
  * Componente DOM para exibir mensagens de interação
  * Fica fora do canvas do Phaser para ter texto sempre nítido
  */
+
+const TEXT_TO_SHOW_NEXT = '[X] fechar';
+
 export class MessageBox {
   private container: HTMLDivElement;
   private textElement: HTMLDivElement;
@@ -19,43 +24,20 @@ export class MessageBox {
 
   private createContainer(): HTMLDivElement {
     const container = document.createElement('div');
-    container.style.cssText = `
-      position: fixed;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.9);
-      border: 2px solid white;
-      border-radius: 8px;
-      padding: 15px 30px;
-      text-align: center;
-      display: none;
-      z-index: 1000;
-      font-family: Arial, sans-serif;
-      min-width: 200px;
-      max-width: 400px;
-    `;
+    container.style.cssText = containerStyle;
     return container;
   }
 
   private createTextElement(): HTMLDivElement {
     const text = document.createElement('div');
-    text.style.cssText = `
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    `;
+    text.style.cssText = textStyle;
     return text;
   }
 
   private createInstructionElement(): HTMLDivElement {
     const instruction = document.createElement('div');
-    instruction.style.cssText = `
-      color: #aaaaaa;
-      font-size: 12px;
-    `;
-    instruction.textContent = '[X] fechar';
+    instruction.style.cssText = instructionStyle;
+    instruction.textContent = TEXT_TO_SHOW_NEXT;
     return instruction;
   }
 

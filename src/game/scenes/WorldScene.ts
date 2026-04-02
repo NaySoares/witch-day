@@ -6,7 +6,7 @@ import { CollisionSystem } from '../systems/collision';
 import { TravelSystem, TravelFastSystem } from '../systems/travel';
 import { InteractionSystem } from '../systems/Interaction';
 import { DebugPanel } from '../ui';
-import { DialogBox } from '../ui/DialogBox';
+import { DialogBox } from '../ui/dialog/DialogBox';
 
 export class WorldScene extends Phaser.Scene {
   private worldMap!: WorldMapEntity;
